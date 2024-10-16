@@ -1,0 +1,28 @@
+{
+	"env": {
+		"es6": true,
+		"node": true,
+		"jest": true
+	},
+	"extends": ["airbnb-base", "plugin:prettier/recommended"],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": 2022,
+		"sourceType": "module"
+	},
+	"plugins": ["@typescript-eslint", "prettier"],
+	"rules": {
+		"no-restricted-syntax": "off",
+		"prettier/prettier": ["error", { "endOfLine": "auto" }],
+		"arrow-body-style": ["warn", "as-needed"],
+		"no-console": "warn",
+		"no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+		"import/prefer-default-export": "off",
+		"import/extensions": ["error", "ignorePackages", { "ts": "never" }],
+		"class-methods-use-this": "off",
+		"import/no-unresolved": ["error", { "ignore": ["^firebase-admin/.+"] }]
+	},
+	"settings": {
+		"import/resolver": { "typescript": {} }
+	}
+}
