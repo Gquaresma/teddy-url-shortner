@@ -9,7 +9,7 @@ export class Users {
 	@Property()
 	name!: string;
 
-	@Property()
+	@Property({ unique: true })
 	email!: string;
 
 	@Property()

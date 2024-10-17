@@ -12,6 +12,10 @@
 	},
 	"plugins": ["@typescript-eslint", "prettier"],
 	"rules": {
+		"@typescript-eslint/no-unused-vars": [
+			"error",
+			{ "argsIgnorePattern": "^_", "varsIgnorePattern": "^Express$" }
+		],
 		"no-restricted-syntax": "off",
 		"prettier/prettier": ["error", { "endOfLine": "auto" }],
 		"arrow-body-style": ["warn", "as-needed"],
