@@ -8,7 +8,6 @@ class UrlController extends Controller {
 	async generateShortUrl(req: Request) {
 		try {
 			const userId = req.user?.id;
-			console.log('ID --> ', userId);
 			const shortedUrl = await this.service.save({ ...req.body, userId });
 			const completeUrl = `${req.protocol}://${req.get('host')}/${shortedUrl}`;
 
