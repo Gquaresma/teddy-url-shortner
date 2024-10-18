@@ -7,13 +7,11 @@ import { NotFoundError } from '../errors/NotFoundError';
 
 class UrlService extends Service {
 	async save(data: urlDto) {
-		console.log(data);
 		try {
 			const shortUrl = nanoid(6);
-			const shortedUrl = `${data.protocol}://${data.host}/${shortUrl}`;
 			const urlData = {
 				originalUrl: data.url,
-				shortedUrl,
+				shortedUrl: `${data.protocol}://${data.host}/${shortUrl}`,
 				numberOfClicks: 0,
 				userId: data.userId || null,
 			};
