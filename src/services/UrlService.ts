@@ -11,14 +11,14 @@ class UrlService extends Service {
 			const shortUrl = nanoid(6);
 			const urlData = {
 				originalUrl: data.url,
-				shortedUrl: `${data.protocol}://${data.host}/${shortUrl}`,
+				shortedUrl: shortUrl,
 				numberOfClicks: 0,
 				userId: data.userId || null,
 			};
 
 			await super.save([urlData]);
 
-			return urlData.shortedUrl;
+			return shortUrl;
 		} catch (error: any) {
 			throw new BadRequestError(error.message);
 		}
@@ -28,7 +28,7 @@ class UrlService extends Service {
 		try {
 			const result = await super.findOne(shortedUrl);
 
-			if (!result || !result.originalUrl || result.some((item: any) => item.deletedAt)) {
+			if (!result || !result.originalUrl || result.deletedAt !== null) {
 				throw new NotFoundError('Url not found');
 			}
 			result.userId = result.user.id;
@@ -36,6 +36,7 @@ class UrlService extends Service {
 			result.numberOfClicks += 1;
 			await super.update(result, shortedUrl);
 
+			console.log(result.originalUrl);
 			return result.originalUrl;
 		} catch (error: any) {
 			throw new BadRequestError(error.message);

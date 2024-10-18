@@ -9,16 +9,10 @@ class UrlController extends Controller {
 	async generateShortUrl(req: Request) {
 		try {
 			const userId = getUserIdFromToken(req);
+			const shortedUrl = await this.service.save({ ...req.body, userId });
+			const completeUrl = `${req.protocol}://${req.get('host')}/${shortedUrl}`;
 
-			const validate = await this.validator.validatePost({
-				...req.body,
-				protocol: req.protocol,
-				host: req.get('host'),
-			});
-
-			const shortedUrl = await this.service.save({ ...validate, userId });
-
-			return success({ shortedUrl });
+			return success({ shortedUrl: completeUrl });
 		} catch (error: any) {
 			return badRequest(error.message);
 		}
