@@ -7,18 +7,20 @@ import { NotFoundError } from '../errors/NotFoundError';
 
 class UrlService extends Service {
 	async save(data: urlDto) {
+		console.log(data);
 		try {
 			const shortUrl = nanoid(6);
+			const shortedUrl = `${data.protocol}://${data.host}/${shortUrl}`;
 			const urlData = {
 				originalUrl: data.url,
-				shortedUrl: shortUrl,
+				shortedUrl,
 				numberOfClicks: 0,
 				userId: data.userId || null,
 			};
 
 			await super.save([urlData]);
 
-			return shortUrl;
+			return urlData.shortedUrl;
 		} catch (error: any) {
 			throw new BadRequestError(error.message);
 		}
@@ -37,6 +39,20 @@ class UrlService extends Service {
 			await super.update(result, shortedUrl);
 
 			return result.originalUrl;
+		} catch (error: any) {
+			throw new BadRequestError(error.message);
+		}
+	}
+
+	async findAll(userId: string) {
+		try {
+			const result = await super.findAll(userId);
+
+			if (!result) {
+				throw new NotFoundError('User URLs not found');
+			}
+
+			return result;
 		} catch (error: any) {
 			throw new BadRequestError(error.message);
 		}

@@ -10,12 +10,15 @@ class UrlController extends Controller {
 		try {
 			const userId = getUserIdFromToken(req);
 
-			const validate = await this.validator.validatePost(req.body);
+			const validate = await this.validator.validatePost({
+				...req.body,
+				protocol: req.protocol,
+				host: req.get('host'),
+			});
 
 			const shortedUrl = await this.service.save({ ...validate, userId });
-			const completeUrl = `${req.protocol}://${req.get('host')}/${shortedUrl}`;
 
-			return success({ shortedUrl: completeUrl });
+			return success({ shortedUrl });
 		} catch (error: any) {
 			return badRequest(error.message);
 		}
@@ -29,6 +32,18 @@ class UrlController extends Controller {
 			const originalUrl = await this.service.findOne(validate);
 
 			return success({ originalUrl });
+		} catch (error: any) {
+			return badRequest(error.message);
+		}
+	}
+
+	async findAll(req: Request) {
+		try {
+			const userId = getUserIdFromToken(req);
+			const validate = await this.validator.validateGet({ userId });
+			const data = await this.service.findAll(validate);
+
+			return success(data);
 		} catch (error: any) {
 			return badRequest(error.message);
 		}
