@@ -21,4 +21,8 @@ const putSchema = yup.object({
 	shortUrl: yup.string().required(),
 });
 
-export { postSchema, getSchema, getOneSchema, putSchema };
+const softDeleteSchema = yup.object({
+	urldId: yup.string().required(),
+});
+
+export { postSchema, getSchema, getOneSchema, putSchema, softDeleteSchema };

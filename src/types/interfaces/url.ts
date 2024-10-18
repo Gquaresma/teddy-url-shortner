@@ -3,4 +3,5 @@ import ISchema from './schemas';
 
 export interface IUrlSchema extends ISchema {
 	urlSchema: yup.AnyObjectSchema;
+	softDeleteSchema: yup.AnyObjectSchema;
 }

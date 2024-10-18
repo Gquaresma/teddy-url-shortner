@@ -41,9 +41,23 @@ class UrlController extends Controller {
 		try {
 			const userId = getUserIdFromToken(req);
 			const validate = await this.validator.validateGet({ userId });
+
 			const data = await this.service.findAll(validate);
 
 			return success(data);
+		} catch (error: any) {
+			return badRequest(error.message);
+		}
+	}
+
+	async remove(req: Request) {
+		try {
+			const { shortedUrl } = req.body;
+			const validate = await this.validator.validateGetOne({ shortedUrl });
+
+			await this.service.remove(validate);
+
+			return success({ message: 'Url deleted successfully' });
 		} catch (error: any) {
 			return badRequest(error.message);
 		}

@@ -8,4 +8,5 @@ export interface IUserService extends IService {
 
 export interface IUserValidator extends IValidator {
 	validateLogin: (_data: any) => Promise<loginDto>;
+	validateSoftDelete: (_data: any) => Promise<any>;
 }

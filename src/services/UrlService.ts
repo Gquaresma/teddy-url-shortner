@@ -28,7 +28,7 @@ class UrlService extends Service {
 		try {
 			const result = await super.findOne(shortedUrl);
 
-			if (!result || !result.originalUrl) {
+			if (!result || !result.originalUrl || result.some((item: any) => item.deletedAt)) {
 				throw new NotFoundError('Url not found');
 			}
 			result.userId = result.user.id;
@@ -50,7 +50,29 @@ class UrlService extends Service {
 				throw new NotFoundError('User URLs not found');
 			}
 
-			return result;
+			const filteredResult = result.filter((item: any) => item.deletedAt === null);
+
+			if (filteredResult.length === 0) {
+				throw new NotFoundError('User URLs not found');
+			}
+
+			return filteredResult;
+		} catch (error: any) {
+			throw new BadRequestError(error.message);
+		}
+	}
+
+	async remove(shortedUrl: string) {
+		try {
+			const result = await super.findOne(shortedUrl);
+
+			result.deletedAt = new Date();
+			result.userId = result.user.id;
+			delete result.user;
+
+			await super.update(result, shortedUrl);
+
+			return { message: 'Url deleted successfully' };
 		} catch (error: any) {
 			throw new BadRequestError(error.message);
 		}
