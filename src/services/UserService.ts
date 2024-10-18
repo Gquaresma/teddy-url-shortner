@@ -25,7 +25,6 @@ class UserService extends Service {
 				...payload,
 			};
 
-			delete user.id;
 			delete user.password;
 
 			const isMatch = bcrypt.compareSync(data.password, password);
