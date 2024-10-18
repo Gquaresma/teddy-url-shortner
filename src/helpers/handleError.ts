@@ -18,6 +18,7 @@ export const handleError = (error: any) => {
 		throw errors[error.code];
 	} else {
 		const isDevEnvironment = (process.env.NODE_ENV || '').toLowerCase().includes('dev');
+		console.log('Error: ', error);
 		throw new DatabaseError(
 			isDevEnvironment ? String(error.constraint || error.message) : undefined,
 		);
