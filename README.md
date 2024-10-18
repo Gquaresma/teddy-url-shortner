@@ -19,7 +19,7 @@ $ npm install //irá instalar as dependências necessárias
 
 $ docker-compose up -d //irá iniciar o postgress
 
-$ nom run db:setup //irá criar as tableas e configurar o banco de dados
+$ npm run db:setup //irá criar as tableas e configurar o banco de dados
 
 $ npm run dev //
 ```
