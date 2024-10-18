@@ -3,6 +3,7 @@ import UrlRepository from '../repositories/UrlRepository';
 import Service from './Service';
 import { BadRequestError } from '../errors/BadRequestError';
 import { urlDto } from '../types/DTO/url';
+import { NotFoundError } from '../errors/NotFoundError';
 
 class UrlService extends Service {
 	async save(data: urlDto) {
@@ -18,6 +19,23 @@ class UrlService extends Service {
 			await super.save([urlData]);
 
 			return shortUrl;
+		} catch (error: any) {
+			throw new BadRequestError(error.message);
+		}
+	}
+
+	async findOne(shortedUrl: string) {
+		try {
+			const result = await super.findOne(shortedUrl);
+
+			if (!result || !result.originalUrl) {
+				throw new NotFoundError('Url not found');
+			}
+
+			result.numberOfClicks += 1;
+			await super.update(result, shortedUrl);
+
+			return result.originalUrl;
 		} catch (error: any) {
 			throw new BadRequestError(error.message);
 		}

@@ -21,16 +21,18 @@ class UrlController extends Controller {
 		}
 	}
 
-	// async redirectToOriginalUrl(req: Request) {
-	// 	try {
-	// 		const { shortUrl } = req.params;
-	// 		const originalUrl = await this.service.findByShortUrl(shortUrl);
+	async redirectToOriginalUrl(req: Request) {
+		try {
+			const { shortedUrl } = req.params;
 
-	// 		return success({ originalUrl });
-	// 	} catch (error: any) {
-	// 		return badRequest(error.message);
-	// 	}
-	// }
+			const validate = await this.validator.validateGetOne({ shortedUrl });
+			const originalUrl = await this.service.findOne(validate);
+
+			return success({ originalUrl });
+		} catch (error: any) {
+			return badRequest(error.message);
+		}
+	}
 }
 
 export default new UrlController(UrlService, Validator);

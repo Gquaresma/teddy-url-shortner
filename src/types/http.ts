@@ -1,7 +1,7 @@
 export type HttpResponse = {
 	statusCode: number;
 	body: any;
-	file?: { mimeType: string; data: Buffer };
+	headers?: Record<string, string>;
 };
 
 export type HttpRequest = {

@@ -8,7 +8,7 @@ const postSchema = yup.object({
 const getSchema = yup.object({});
 
 const getOneSchema = yup.object({
-	shortUrl: yup.string().required(),
+	shortedUrl: yup.string().required(),
 });
 
 const putSchema = yup.object({

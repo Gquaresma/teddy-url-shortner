@@ -5,10 +5,9 @@ export const noContent = (): HttpResponse => ({
 	body: null,
 });
 
-export const success = (data: any, file?: { mimeType: string; data: Buffer }): HttpResponse => ({
+export const success = (data: any): HttpResponse => ({
 	statusCode: 200,
 	body: data,
-	file,
 });
 
 export const badRequest = (message: string): HttpResponse => ({
@@ -44,4 +43,12 @@ export const failedDependency = (message: string) => ({
 export const serverError = (message?: string): HttpResponse => ({
 	statusCode: 500,
 	body: { message: message || 'Erro interno do servidor' },
+});
+
+export const redirect = (url: string): HttpResponse => ({
+	statusCode: 302,
+	body: null,
+	headers: {
+		Location: url,
+	},
 });
