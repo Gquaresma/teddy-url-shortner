@@ -31,7 +31,8 @@ class UrlService extends Service {
 			if (!result || !result.originalUrl) {
 				throw new NotFoundError('Url not found');
 			}
-
+			result.userId = result.user.id;
+			delete result.user;
 			result.numberOfClicks += 1;
 			await super.update(result, shortedUrl);
 
